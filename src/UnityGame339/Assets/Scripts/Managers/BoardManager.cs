@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    [SerializeField] private GameObject squarePrefab; // drag your square prefab here
+    [SerializeField] private GameObject squarePrefab;
     [SerializeField] private float squareSize = 0.75f;
 
     private Renderer squareRenderer;
@@ -14,11 +14,13 @@ public class BoardManager : MonoBehaviour
     private void Start()
     {
         squareRenderer = squarePrefab.GetComponent<Renderer>();
-        GenerateBoard();
+        // GenerateBoard();
     }
 
-    private void GenerateBoard()
+    public void GenerateBoard()
     {
+        GameObject boardHolder = new GameObject("Board Holder");
+
         float offset = (8 * squareSize) / 2f - squareSize / 2f;
         Vector3 origin = squarePrefab.transform.position;
 
@@ -32,7 +34,7 @@ public class BoardManager : MonoBehaviour
             for (int y = 0; y < 8; y++)
             {
                 Vector3 pos = origin + new Vector3(x * squareSize - offset, y * squareSize - offset, 0);
-                GameObject square = Instantiate(squarePrefab, pos, Quaternion.identity, transform);
+                GameObject square = Instantiate(squarePrefab, pos, Quaternion.identity, boardHolder.transform);
                 square.transform.localScale = Vector3.one * squareSize;
                 square.name = $"Square_{x}_{y}";
 
