@@ -24,10 +24,11 @@ public class BoardManager : MonoBehaviour
         float offset = (8 * squareSize) / 2f - squareSize / 2f;
         Vector3 origin = squarePrefab.transform.position;
 
-        // float width = getBoardWidth();
-        // origin.x += width / 2;
-        // origin.y += width / 2;
-        
+        // Create ChessGameManager on its own GameObject
+        GameObject chessManagerObj = new GameObject("ChessGameManager");
+        ChessGameManager chessManager = chessManagerObj.AddComponent<ChessGameManager>();
+
+        SquareController[,] controllers = new SquareController[8, 8];
 
         for (int x = 0; x < 8; x++)
         {
@@ -43,8 +44,14 @@ public class BoardManager : MonoBehaviour
                 sr.color = isLight ? new Color(0.93f, 0.85f, 0.7f) : new Color(0.36f, 0.22f, 0.13f);
 
                 squares[x, y] = square;
+
+                SquareController ctrl = square.AddComponent<SquareController>();
+                ctrl.Initialize(x, y, chessManager, squareSize);
+                controllers[x, y] = ctrl;
             }
         }
+
+        chessManager.Initialize(controllers);
     }
 
     public float getBoardWidth()
