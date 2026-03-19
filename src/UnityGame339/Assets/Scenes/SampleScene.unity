@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 265560409}
   - component: {fileID: 265560408}
   - component: {fileID: 265560407}
+  - component: {fileID: 265560411}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -659,6 +660,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &265560411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265560406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7b2ba9e8b914d4b924e001c8f49e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  titleScreenPrefab: {fileID: 7162159547833895966, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+  mainCamera: {fileID: 265560409}
+  cameraPosition: {x: 0, y: 0, z: -1}
+  cameraRotation: {x: 0, y: 0, z: 0}
+  mainLight: {fileID: 0}
+  lightPosition: {x: 0, y: 2, z: 0}
+  lightRotation: {x: 90, y: 0, z: 0}
 --- !u!1 &594002418
 GameObject:
   m_ObjectHideFlags: 0
