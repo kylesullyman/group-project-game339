@@ -12,6 +12,7 @@ public class TitleScreen : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private BoardManager boardManager;
+    [SerializeField] private PieceInitializer pieceInitializer;
 
     public void Initialize()
     {
@@ -26,6 +27,9 @@ public class TitleScreen : MonoBehaviour
     {
         if (boardManager != null)
             boardManager.GenerateBoard();
+
+        if (pieceInitializer != null)
+            pieceInitializer.InitializePieces();
 
         gameObject.SetActive(false);
     }
