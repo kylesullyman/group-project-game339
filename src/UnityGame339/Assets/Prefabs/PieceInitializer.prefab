@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6097841659307441660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4987314584928821100}
+  - component: {fileID: 4823243505528682773}
+  m_Layer: 0
+  m_Name: PieceInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4987314584928821100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6097841659307441660}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -95.07246, y: 117.45073, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4823243505528682773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6097841659307441660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9200eb889da1464da25caec96dc3137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PieceInitializer
+  _boardManager: {fileID: 3874779137703593358, guid: d01244d8ab81a43848d6ae5d65d02bb0, type: 3}
+  _pieceScale: 0.2
+  _whitePawn: {fileID: 1697293205221340832, guid: f89b6dcb8fa8f4e4b841c026f4425e5e, type: 3}
+  _whiteKnight: {fileID: 3344217048589277021, guid: c6bfc27335a554e16b508c88133e1a2e, type: 3}
+  _whiteBishop: {fileID: 2656380697095540006, guid: 0980c68c1bc194c169ce6003ea0aab29, type: 3}
+  _whiteRook: {fileID: 821531702984372450, guid: 82851f07a35d046f8901d08fddbf5119, type: 3}
+  _whiteQueen: {fileID: 1830561710247355227, guid: 24b953c8a37f24c4bb2c7a3543deb547, type: 3}
+  _whiteKing: {fileID: 7661169733873549490, guid: 2e07300523084459a8c30ea278216b34, type: 3}
+  _blackPawn: {fileID: -5878839328065838738, guid: baa7f51be902c48cc936362028bafc0e, type: 3}
+  _blackKnight: {fileID: 6505215799657260281, guid: 283aa80ad55b24d5a82185a3c7a510d2, type: 3}
+  _blackBishop: {fileID: -944030670268538525, guid: 0dac226270c3c4b8eb98af580d9da025, type: 3}
+  _blackRook: {fileID: 5676920796142475524, guid: ebf5ef4db53094f6aa45ba386505fdc2, type: 3}
+  _blackQueen: {fileID: -5643022908031425636, guid: 7b2c5e7c9ae9c4327ba77fdd20f5ead5, type: 3}
+  _blackKing: {fileID: 5255957778325140381, guid: 43867c7d2ac6a49ceb8d970482a760a5, type: 3}

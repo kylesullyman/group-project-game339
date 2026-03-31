@@ -244,6 +244,7 @@ MonoBehaviour:
   textPosition: {x: 0, y: 90, z: 0}
   startButton: {fileID: 1336762699124314417}
   boardManager: {fileID: 3874779137703593358, guid: d01244d8ab81a43848d6ae5d65d02bb0, type: 3}
+  pieceInitializer: {fileID: 4823243505528682773, guid: eb83f4c0362d746de91c4f057da8a3d3, type: 3}
 --- !u!1 &7398374445013558524
 GameObject:
   m_ObjectHideFlags: 0
