@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.coplaydev.coplay": "https://github.com/CoplayDev/unity-plugin.git#beta",
     "com.game339.shared": "file:../../Shared/Game339.Shared/Runtime",
     "com.unity.2d.animation": "13.0.2",
     "com.unity.2d.aseprite": "3.0.1",

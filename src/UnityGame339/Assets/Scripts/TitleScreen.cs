@@ -11,8 +11,7 @@ public class TitleScreen : MonoBehaviour
     [SerializeField] private Button startButton;
 
     [Header("References")]
-    [SerializeField] private BoardManager boardManager;
-    [SerializeField] private PieceInitializer pieceInitializer;
+    [SerializeField] private CombatManager combatManager;
 
     public void Initialize()
     {
@@ -25,11 +24,8 @@ public class TitleScreen : MonoBehaviour
 
     private void OnStartPressed()
     {
-        if (boardManager != null)
-            boardManager.GenerateBoard();
-
-        if (pieceInitializer != null)
-            pieceInitializer.InitializePieces();
+        if (combatManager != null)
+            combatManager.StartCombat();
 
         gameObject.SetActive(false);
     }
