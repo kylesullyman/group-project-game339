@@ -436,7 +436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5.000038, y: 0}
+  m_AnchoredPosition: {x: -5.0000305, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &617618189
@@ -807,6 +807,36 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2489762931989182751, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_text
+      value: 'CHESTURN
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489762931989182751, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_margin.z
+      value: -195.82353
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489762931989182751, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489762931989182751, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2489762931989182751, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3339200996322186987, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4224208817843092594, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4629988983467721454, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -850,6 +880,14 @@ PrefabInstance:
     - target: {fileID: 7162159547833895966, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
       propertyPath: m_Name
       value: TitleScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374487253333483122, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8374487253333483122, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -961,7 +999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -1356,11 +1394,11 @@ RectTransform:
   - {fileID: 625091206}
   m_Father: {fileID: 1503138373}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150, y: -220}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 77, y: -12}
   m_SizeDelta: {x: 254.7, y: 110.5}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1579256595
 MonoBehaviour:
   m_ObjectHideFlags: 0
