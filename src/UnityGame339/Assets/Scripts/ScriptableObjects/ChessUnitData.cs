@@ -1,16 +1,13 @@
 using UnityEngine;
 
-public class ChessUnitData : MonoBehaviour
+namespace ScriptableObjects
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [CreateAssetMenu(fileName = "NewChessUnit", menuName = "Chess Unit")]
+    public class ChessUnitData : ScriptableObject
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [Header("Stats")]
+        public string unitName;
+        public int health;
+        public int damageDice;
     }
 }
