@@ -17,14 +17,19 @@ namespace Game.Runtime
             OnHealthChanged(GameState.BadGuy.Health.Value);
         }
 
-        protected override void Unsubscribe() =>
+        protected override void Unsubscribe()
+        {
             GameState.BadGuy.Health.ChangeEvent -= OnHealthChanged;
+        }
 
         private void OnHealthChanged(int health)
         {
             if (healthSlider == null) return;
-            healthSlider.maxValue = maxHealth;
-            healthSlider.value    = Mathf.Max(0, health);
+
+            healthSlider.maxValue = 100f;
+
+            float percent = ((float)health / maxHealth) * 100f;
+            healthSlider.value = Mathf.Clamp(percent, 0f, 100f);
         }
     }
 }

@@ -863,6 +863,7 @@ GameObject:
   m_Component:
   - component: {fileID: 617618190}
   - component: {fileID: 617618191}
+  - component: {fileID: 617618192}
   m_Layer: 5
   m_Name: EnemyHealthBarSlider
   m_TagString: Untagged
@@ -943,6 +944,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &617618192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617618189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bc3e2d298c4f42d8857eeaa04c9aecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.EnemyHealthBarView
+  healthSlider: {fileID: 617618191}
+  maxHealth: 10
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1915,6 +1930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1579256594}
   - component: {fileID: 1579256595}
+  - component: {fileID: 1579256596}
   m_Layer: 5
   m_Name: PlayerHealthBarSlider
   m_TagString: Untagged
@@ -1995,6 +2011,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1579256596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579256593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b89b14d46d334f11907af758fd9d0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.PlayerHealthBarView
+  healthSlider: {fileID: 1579256595}
+  maxHealth: 10
 --- !u!1 &1598903002 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3950542251372397921, guid: 7ee33c61862e6453bb99d98dae19477d, type: 3}
