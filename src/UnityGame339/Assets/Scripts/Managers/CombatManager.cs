@@ -58,6 +58,16 @@ public class CombatManager : MonoBehaviour
         EnemyTakeTurn();
     }
 
+    public void PlayerParry()
+    {
+        
+    }
+
+    public void PlayerSpecial()
+    {
+        
+    }
+
     private void EnemyTakeTurn()
     {
         var damage = DamageSvc.CalculateDamage(GameState.BadGuy, GameState.GoodGuy);
