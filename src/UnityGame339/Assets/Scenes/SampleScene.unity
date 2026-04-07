@@ -2653,6 +2653,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   playerSpawnPosition: {x: -4, y: -3, z: 0}
   enemySpawnPosition: {x: 4, y: 3, z: 0}
+  pawn: {fileID: 11400000, guid: 965633dd7219368478f746dc6b873551, type: 2}
+  knight: {fileID: 11400000, guid: 21ba3a3dc6d3b423cba97fa2e40ff658, type: 2}
   playerPawnPrefab: {fileID: 1598903002}
   enemyPawnPrefab: {fileID: 191700859}
 --- !u!1001 &1547288434120444574
