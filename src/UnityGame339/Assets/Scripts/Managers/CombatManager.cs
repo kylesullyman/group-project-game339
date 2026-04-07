@@ -58,7 +58,12 @@ public class CombatManager : MonoBehaviour
         EnemyTakeTurn();
     }
 
-    public void PlayerDefend()
+    public void PlayerParry()
+    {
+        
+    }
+
+    public void PlayerSpecial()
     {
         
     }
