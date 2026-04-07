@@ -7,7 +7,7 @@ namespace Game.Runtime
     public class PlayerHealthBarView : ObserverMonoBehaviour
     {
         [SerializeField] private Slider healthSlider;
-        [SerializeField] private int maxHealth = 10;
+        [SerializeField] private int maxHealth = 100;
 
         private static GameState GameState => ServiceResolver.Resolve<GameState>();
 
