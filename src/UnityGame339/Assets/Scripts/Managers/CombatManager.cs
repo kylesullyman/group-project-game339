@@ -1,6 +1,7 @@
 using Game.Runtime;
 using Game339.Shared.Models;
 using Game339.Shared.Services;
+using ScriptableObjects;
 using UnityEngine;
 
 public class CombatManager : MonoBehaviour
@@ -10,6 +11,11 @@ public class CombatManager : MonoBehaviour
     [Header("Spawn Positions")]
     [SerializeField] private Vector3 playerSpawnPosition = new Vector3(-4f, -3f, 0f);
     [SerializeField] private Vector3 enemySpawnPosition = new Vector3(4f, 3f, 0f);
+
+    [Header("Chess Unit Data")]
+    [SerializeField] private ChessUnitData pawn;
+    [SerializeField] private ChessUnitData knight;
+    
 
     [Header("Prefabs")]
     [SerializeField] private GameObject playerPawnPrefab;
@@ -54,10 +60,10 @@ public class CombatManager : MonoBehaviour
         GameState.GoodGuy.Damage.Value = 2;
         GameState.GoodGuy.Armor.Value = 0;
 
-        GameState.BadGuy.Name.Value = "Enemy Pawn";
-        GameState.BadGuy.Health.Value = 10;
-        GameState.BadGuy.Damage.Value = 1;
-        GameState.BadGuy.Armor.Value = 0;
+        GameState.BadGuy.Name.Value    = "Enemy Pawn";
+        GameState.BadGuy.Health.Value = pawn.health;
+        GameState.BadGuy.Damage.Value  = pawn.damage;
+        GameState.BadGuy.Armor.Value   = pawn.armor;
 
         if (playerPawnPrefab != null && _playerInstance == null)
             _playerInstance = Instantiate(playerPawnPrefab, playerSpawnPosition, Quaternion.identity);
