@@ -369,6 +369,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &191700859 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3950542251372397921, guid: 8854e238741c349cf82068191ce1d170, type: 3}
+  m_PrefabInstance: {fileID: 1274526580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &197902223
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,13 +731,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2112537461}
+        m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
+        m_MethodName: PlayerAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1260,10 +1265,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitleScreen
       objectReference: {fileID: 0}
-    - target: {fileID: 7162159547833895966, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1547,7 +1548,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1352511640}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2112537461}
+        m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
+        m_MethodName: PlayerParry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1352511640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1928,7 +1941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 77.00001, y: -12.0000105}
+  m_AnchoredPosition: {x: 77, y: -12}
   m_SizeDelta: {x: 254.7, y: 110.5}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1579256595
@@ -1982,6 +1995,11 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1598903002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3950542251372397921, guid: 7ee33c61862e6453bb99d98dae19477d, type: 3}
+  m_PrefabInstance: {fileID: 1547288434120444574}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1610131803
 GameObject:
   m_ObjectHideFlags: 0
@@ -2201,7 +2219,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1643109615}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2112537461}
+        m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
+        m_MethodName: PlayerSpecial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1643109615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2585,6 +2615,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2112537460}
+  - component: {fileID: 2112537461}
   m_Layer: 0
   m_Name: Game UI
   m_TagString: Untagged
@@ -2608,6 +2639,22 @@ Transform:
   - {fileID: 2020126008}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2112537461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112537459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a5e84904608948d6b581a71a1250727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatManager
+  playerSpawnPosition: {x: -4, y: -3, z: 0}
+  enemySpawnPosition: {x: 4, y: 3, z: 0}
+  playerPawnPrefab: {fileID: 1598903002}
+  enemyPawnPrefab: {fileID: 191700859}
 --- !u!1001 &1547288434120444574
 PrefabInstance:
   m_ObjectHideFlags: 0
