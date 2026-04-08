@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.ChessUnitData
   unitName: Knight
   health: 200
-  damageDice: 10
+  damage: 6
+  armor: 0
