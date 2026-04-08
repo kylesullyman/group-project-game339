@@ -53,7 +53,7 @@ namespace Game339.Tests
         }
 
         [Test]
-        public void ApplyDamage_CanReduceHealthBelowZero()
+        public void ApplyDamage_DoesNotReduceHealthBelowZero()
         {
             var attacker = new Character();
             attacker.Name.Value = "Attacker";
@@ -67,7 +67,7 @@ namespace Game339.Tests
             int damage = _damageService.CalculateDamage(attacker, defender);
             _damageService.ApplyDamage(defender, damage);
 
-            Assert.That(defender.Health.Value, Is.EqualTo(-40));
+            Assert.That(defender.Health.Value, Is.EqualTo(0));
         }
     }
 

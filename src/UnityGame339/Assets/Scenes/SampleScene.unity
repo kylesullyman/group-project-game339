@@ -369,11 +369,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &191700859 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3950542251372397921, guid: 8854e238741c349cf82068191ce1d170, type: 3}
-  m_PrefabInstance: {fileID: 1274526580}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &197902223
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +655,6 @@ GameObject:
   - component: {fileID: 426503765}
   - component: {fileID: 426503764}
   - component: {fileID: 426503763}
-  - component: {fileID: 426503766}
   m_Layer: 0
   m_Name: Attack Button
   m_TagString: Untagged
@@ -782,19 +776,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426503761}
   m_CullTransparentMesh: 1
---- !u!114 &426503766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426503761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a2ff40ca285b4474b9173931d5476c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.PlayerAttackButtonView
-  button: {fileID: 426503763}
 --- !u!1 &469367270
 GameObject:
   m_ObjectHideFlags: 0
@@ -1658,7 +1639,6 @@ GameObject:
   - component: {fileID: 1352511641}
   - component: {fileID: 1352511640}
   - component: {fileID: 1352511639}
-  - component: {fileID: 1352511642}
   m_Layer: 0
   m_Name: Parry Button
   m_TagString: Untagged
@@ -1732,7 +1712,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2112537461}
         m_TargetAssemblyTypeName: CombatManager, Assembly-CSharp
-        m_MethodName: PlayerParry
+        m_MethodName: PlayerBlock
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1780,19 +1760,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352511637}
   m_CullTransparentMesh: 1
---- !u!114 &1352511642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352511637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd7786ea3d0ae42c7b02a43a92371e93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.PlayerBlockButtonView
-  button: {fileID: 1352511639}
 --- !u!1 &1515239676
 GameObject:
   m_ObjectHideFlags: 0
@@ -2204,11 +2171,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.PlayerHealthBarView
   healthSlider: {fileID: 1579256595}
   maxHealth: 10
---- !u!1 &1598903002 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3950542251372397921, guid: 7ee33c61862e6453bb99d98dae19477d, type: 3}
-  m_PrefabInstance: {fileID: 1547288434120444574}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1610131803
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,7 +2454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96be62976fa634df693e93d64c95cc84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.PlayerSpecialButtonView
-  button: {fileID: 1643109614}
 --- !u!1 &1782831830
 GameObject:
   m_ObjectHideFlags: 0
@@ -2757,7 +2718,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -396.4, y: -32.536}
+  m_AnchoredPosition: {x: -396.3999, y: -32.536133}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2000787342
@@ -3027,11 +2988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a5e84904608948d6b581a71a1250727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
-  playerSpawnPosition: {x: -4, y: -3, z: 0}
-  enemySpawnPosition: {x: 4, y: 3, z: 0}
   pawn: {fileID: 11400000, guid: 965633dd7219368478f746dc6b873551, type: 2}
-  playerPawnPrefab: {fileID: 1598903002}
-  enemyPawnPrefab: {fileID: 191700859}
+  combatResultUI: {fileID: 0}
 --- !u!1001 &1547288434120444574
 PrefabInstance:
   m_ObjectHideFlags: 0

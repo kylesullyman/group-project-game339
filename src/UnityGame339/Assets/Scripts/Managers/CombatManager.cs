@@ -9,24 +9,16 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance { get; private set; }
 
-    [Header("Spawn Positions")]
-    [SerializeField] private Vector3 playerSpawnPosition = new Vector3(-4f, -3f, 0f);
-    [SerializeField] private Vector3 enemySpawnPosition = new Vector3(4f, 3f, 0f);
-
     [Header("Enemy Data")]
     [SerializeField] private ChessUnitData pawn;
 
-    [Header("Prefabs")]
-    [SerializeField] private GameObject playerPawnPrefab;
-    [SerializeField] private GameObject enemyPawnPrefab;
+    [Header("UI")]
+    [SerializeField] private CombatResultUI combatResultUI;
 
     private bool _isPlayerTurn = true;
     private bool _combatActive;
     private bool _playerBlocking;
     private bool _enemyBlocking;
-
-    private GameObject _playerInstance;
-    private GameObject _enemyInstance;
 
     private static GameState GameState => ServiceResolver.Resolve<GameState>();
     private static IDamageService DamageSvc => ServiceResolver.Resolve<IDamageService>();
@@ -35,10 +27,6 @@ public class CombatManager : MonoBehaviour
     public bool IsCombatActive => _combatActive;
     public bool IsPlayerTurn => _isPlayerTurn;
 
-    private void Start()
-    {
-        StartCombat();
-    }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -50,27 +38,37 @@ public class CombatManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        StartCombat();
+    }
+
     public void StartCombat()
     {
-        if (_combatActive) return;
-
         GameState.GoodGuy.Name.Value = "Player";
         GameState.GoodGuy.Health.Value = 10;
         GameState.GoodGuy.Damage.Value = 2;
         GameState.GoodGuy.Armor.Value = 0;
 
-        GameState.BadGuy.Name.Value = "Enemy Pawn";
+        GameState.BadGuy.Name.Value = "Enemy";
         GameState.BadGuy.Health.Value = 10;
-        GameState.BadGuy.Damage.Value = pawn != null ? pawn.damage : 2;
-        GameState.BadGuy.Armor.Value = pawn != null ? pawn.armor : 0;
-
+        GameState.BadGuy.Damage.Value = 2;
+        GameState.BadGuy.Armor.Value = 0;
         
         _playerBlocking = false;
         _enemyBlocking = false;
         _isPlayerTurn = true;
         _combatActive = true;
 
+        if (combatResultUI != null)
+            combatResultUI.Hide();
+
         Log.Info("Combat started.");
+    }
+
+    public void RestartCombat()
+    {
+        StartCombat();
     }
 
     public void PlayerAttack()
@@ -91,7 +89,7 @@ public class CombatManager : MonoBehaviour
 
         if (GameState.BadGuy.Health.Value <= 0)
         {
-            EndCombat("Enemy defeated.");
+            EndCombat(true);
             return;
         }
 
@@ -128,34 +126,12 @@ public class CombatManager : MonoBehaviour
 
         if (GameState.BadGuy.Health.Value <= 0)
         {
-            EndCombat("Enemy defeated by special.");
+            EndCombat(true);
             return;
         }
 
         _isPlayerTurn = false;
         EnemyTakeTurn();
-    }
-
-    public void ResetCombat()
-    {
-        _combatActive = false;
-        _isPlayerTurn = true;
-        _playerBlocking = false;
-        _enemyBlocking = false;
-
-        if (_playerInstance != null)
-        {
-            Destroy(_playerInstance);
-            _playerInstance = null;
-        }
-
-        if (_enemyInstance != null)
-        {
-            Destroy(_enemyInstance);
-            _enemyInstance = null;
-        }
-
-        Log.Info("Combat reset.");
     }
 
     private void EnemyTakeTurn()
@@ -182,21 +158,26 @@ public class CombatManager : MonoBehaviour
         if (_playerBlocking)
         {
             damage = Mathf.Max(0, damage - 2);
-            _playerBlocking = false;
             Log.Info("Player blocked part of the enemy attack.");
         }
+
+        _playerBlocking = false;
 
         DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
         Log.Info("Enemy attacked for " + damage + " damage.");
 
         if (GameState.GoodGuy.Health.Value <= 0)
-            EndCombat("Player defeated.");
+            EndCombat(false);
     }
 
     private void EnemyBlock()
     {
         _enemyBlocking = true;
+
+        // keep player's block for the next actual incoming hit only if you want;
+        // better to consume it after enemy action cycle:
         _playerBlocking = false;
+
         Log.Info("Enemy used Block.");
     }
 
@@ -207,22 +188,32 @@ public class CombatManager : MonoBehaviour
         if (_playerBlocking)
         {
             damage = Mathf.Max(0, damage - 2);
-            _playerBlocking = false;
             Log.Info("Player blocked part of the enemy special.");
         }
+
+        _playerBlocking = false;
 
         DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
         Log.Info("Enemy used Special for " + damage + " damage.");
 
         if (GameState.GoodGuy.Health.Value <= 0)
-            EndCombat("Player defeated by enemy special.");
+            EndCombat(false);
     }
 
-    private void EndCombat(string message)
+    private void EndCombat(bool playerWon)
     {
         _combatActive = false;
         _playerBlocking = false;
         _enemyBlocking = false;
-        Log.Info(message);
+
+        if (combatResultUI != null)
+        {
+            if (playerWon)
+                combatResultUI.ShowWin();
+            else
+                combatResultUI.ShowLose();
+        }
+
+        Log.Info(playerWon ? "Player won combat." : "Player lost combat.");
     }
 }
