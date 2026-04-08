@@ -35,6 +35,10 @@ public class CombatManager : MonoBehaviour
     public bool IsCombatActive => _combatActive;
     public bool IsPlayerTurn => _isPlayerTurn;
 
+    private void Start()
+    {
+        StartCombat();
+    }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -56,16 +60,11 @@ public class CombatManager : MonoBehaviour
         GameState.GoodGuy.Armor.Value = 0;
 
         GameState.BadGuy.Name.Value = "Enemy Pawn";
-        GameState.BadGuy.Health.Value = pawn != null ? pawn.health : 10;
+        GameState.BadGuy.Health.Value = 10;
         GameState.BadGuy.Damage.Value = pawn != null ? pawn.damage : 2;
         GameState.BadGuy.Armor.Value = pawn != null ? pawn.armor : 0;
 
-        if (playerPawnPrefab != null && _playerInstance == null)
-            _playerInstance = Instantiate(playerPawnPrefab, playerSpawnPosition, Quaternion.identity);
-
-        if (enemyPawnPrefab != null && _enemyInstance == null)
-            _enemyInstance = Instantiate(enemyPawnPrefab, enemySpawnPosition, Quaternion.identity);
-
+        
         _playerBlocking = false;
         _enemyBlocking = false;
         _isPlayerTurn = true;
@@ -100,7 +99,7 @@ public class CombatManager : MonoBehaviour
         EnemyTakeTurn();
     }
 
-    public void PlayerParry()
+    public void PlayerBlock()
     {
         if (!_combatActive || !_isPlayerTurn) return;
 
@@ -166,17 +165,11 @@ public class CombatManager : MonoBehaviour
         int action = Random.Range(0, 3);
 
         if (action == 0)
-        {
             EnemyAttack();
-        }
         else if (action == 1)
-        {
             EnemyBlock();
-        }
         else
-        {
             EnemySpecial();
-        }
 
         if (_combatActive)
             _isPlayerTurn = true;
@@ -197,9 +190,7 @@ public class CombatManager : MonoBehaviour
         Log.Info("Enemy attacked for " + damage + " damage.");
 
         if (GameState.GoodGuy.Health.Value <= 0)
-        {
             EndCombat("Player defeated.");
-        }
     }
 
     private void EnemyBlock()
@@ -224,9 +215,7 @@ public class CombatManager : MonoBehaviour
         Log.Info("Enemy used Special for " + damage + " damage.");
 
         if (GameState.GoodGuy.Health.Value <= 0)
-        {
             EndCombat("Player defeated by enemy special.");
-        }
     }
 
     private void EndCombat(string message)
