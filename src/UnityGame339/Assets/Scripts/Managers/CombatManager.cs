@@ -54,7 +54,7 @@ public class CombatManager : MonoBehaviour
         GameState.BadGuy.Health.Value = 10;
         GameState.BadGuy.Damage.Value = 2;
         GameState.BadGuy.Armor.Value = 0;
-        
+
         _playerBlocking = false;
         _enemyBlocking = false;
         _isPlayerTurn = true;
@@ -68,6 +68,7 @@ public class CombatManager : MonoBehaviour
 
     public void RestartCombat()
     {
+        Log.Info("Combat restarted.");
         StartCombat();
     }
 
@@ -173,11 +174,7 @@ public class CombatManager : MonoBehaviour
     private void EnemyBlock()
     {
         _enemyBlocking = true;
-
-        // keep player's block for the next actual incoming hit only if you want;
-        // better to consume it after enemy action cycle:
         _playerBlocking = false;
-
         Log.Info("Enemy used Block.");
     }
 
