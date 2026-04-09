@@ -3,7 +3,7 @@ using TMPro;
 
 namespace Game.Runtime
 {
-    public class GoodGuyHpView : ObserverMonoBehaviour
+    public class BadGuyHpView : ObserverMonoBehaviour
     {
         private static GameState GameState => ServiceResolver.Resolve<GameState>();
 
@@ -11,16 +11,16 @@ namespace Game.Runtime
 
         protected override void Subscribe()
         {
-            GameState.GoodGuy.Health.ChangeEvent += OnGoodGuyHealthChange;
-            OnGoodGuyHealthChange(GameState.GoodGuy.Health.Value);
+            GameState.BadGuy.Health.ChangeEvent += OnBadGuyHealthChange;
+            OnBadGuyHealthChange(GameState.BadGuy.Health.Value);
         }
 
         protected override void Unsubscribe()
         {
-            GameState.GoodGuy.Health.ChangeEvent -= OnGoodGuyHealthChange;
+            GameState.BadGuy.Health.ChangeEvent -= OnBadGuyHealthChange;
         }
 
-        private void OnGoodGuyHealthChange(int health)
+        private void OnBadGuyHealthChange(int health)
         {
             if (thisIsMyLabel != null)
                 thisIsMyLabel.text = "Health: " + health;

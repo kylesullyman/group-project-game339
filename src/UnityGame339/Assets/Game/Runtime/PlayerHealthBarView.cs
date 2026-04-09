@@ -7,7 +7,7 @@ namespace Game.Runtime
     public class PlayerHealthBarView : ObserverMonoBehaviour
     {
         [SerializeField] private Slider healthSlider;
-        [SerializeField] private int maxHealth = 100;
+        [SerializeField] private int maxHealth = 10;
 
         private static GameState GameState => ServiceResolver.Resolve<GameState>();
 
@@ -17,14 +17,18 @@ namespace Game.Runtime
             OnHealthChanged(GameState.GoodGuy.Health.Value);
         }
 
-        protected override void Unsubscribe() =>
+        protected override void Unsubscribe()
+        {
             GameState.GoodGuy.Health.ChangeEvent -= OnHealthChanged;
+        }
 
         private void OnHealthChanged(int health)
         {
             if (healthSlider == null) return;
-            healthSlider.maxValue = maxHealth;
-            healthSlider.value    = Mathf.Max(0, health);
+
+            healthSlider.maxValue = 100f;
+            float percent = ((float)health / maxHealth) * 100f;
+            healthSlider.value = Mathf.Clamp(percent, 0f, 100f);
         }
     }
 }

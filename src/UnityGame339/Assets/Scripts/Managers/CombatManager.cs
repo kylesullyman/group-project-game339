@@ -1,4 +1,5 @@
 using Game.Runtime;
+using Game339.Shared.Diagnostics;
 using Game339.Shared.Models;
 using Game339.Shared.Services;
 using ScriptableObjects;
@@ -6,57 +7,90 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
-    [Header("Spawn Positions")]
-    [SerializeField] private Vector3 playerSpawnPosition = new Vector3(-4f, -3f, 0f);
-    [SerializeField] private Vector3 enemySpawnPosition  = new Vector3( 4f,  3f, 0f);
+    public static CombatManager Instance { get; private set; }
 
-    [Header("Chess Unit Data")]
+    [Header("Enemy Data")]
     [SerializeField] private ChessUnitData pawn;
-    [SerializeField] private ChessUnitData knight;
-    
 
-    [Header("Prefabs")]
-    [SerializeField] private GameObject playerPawnPrefab;
-    [SerializeField] private GameObject enemyPawnPrefab;
+    [Header("UI")]
+    [SerializeField] private CombatResultUI combatResultUI;
 
     private bool _isPlayerTurn = true;
-    private bool _combatActive = false;
+    private bool _combatActive;
+    private bool _playerBlocking;
+    private bool _enemyBlocking;
 
-    private static GameState GameState      => ServiceResolver.Resolve<GameState>();
+    private static GameState GameState => ServiceResolver.Resolve<GameState>();
     private static IDamageService DamageSvc => ServiceResolver.Resolve<IDamageService>();
+    private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
+
+    public bool IsCombatActive => _combatActive;
+    public bool IsPlayerTurn => _isPlayerTurn;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        StartCombat();
+    }
 
     public void StartCombat()
     {
-        GameState.GoodGuy.Name.Value   = "Player";
+        GameState.GoodGuy.Name.Value = "Player";
         GameState.GoodGuy.Health.Value = 10;
         GameState.GoodGuy.Damage.Value = 2;
-        GameState.GoodGuy.Armor.Value  = 0;
+        GameState.GoodGuy.Armor.Value = 0;
 
-        GameState.BadGuy.Name.Value    = "Enemy Pawn";
-        GameState.BadGuy.Health.Value = pawn.health;
-        GameState.BadGuy.Damage.Value  = pawn.damage;
-        GameState.BadGuy.Armor.Value   = pawn.armor;
+        GameState.BadGuy.Name.Value = "Enemy";
+        GameState.BadGuy.Health.Value = 10;
+        GameState.BadGuy.Damage.Value = 2;
+        GameState.BadGuy.Armor.Value = 0;
 
-        if (playerPawnPrefab != null)
-            Instantiate(playerPawnPrefab, playerSpawnPosition, Quaternion.identity);
-
-        if (enemyPawnPrefab != null)
-            Instantiate(enemyPawnPrefab, enemySpawnPosition, Quaternion.identity);
-
+        _playerBlocking = false;
+        _enemyBlocking = false;
         _isPlayerTurn = true;
         _combatActive = true;
+
+        if (combatResultUI != null)
+            combatResultUI.Hide();
+
+        Log.Info("Combat started.");
+    }
+
+    public void RestartCombat()
+    {
+        Log.Info("Combat restarted.");
+        StartCombat();
     }
 
     public void PlayerAttack()
     {
         if (!_combatActive || !_isPlayerTurn) return;
 
-        var damage = DamageSvc.CalculateDamage(GameState.GoodGuy, GameState.BadGuy);
+        int damage = DamageSvc.CalculateDamage(GameState.GoodGuy, GameState.BadGuy);
+
+        if (_enemyBlocking)
+        {
+            damage = Mathf.Max(0, damage - 2);
+            _enemyBlocking = false;
+            Log.Info("Enemy blocked part of the player's attack.");
+        }
+
         DamageSvc.ApplyDamage(GameState.BadGuy, damage);
+        Log.Info("Player attacked for " + damage + " damage.");
 
         if (GameState.BadGuy.Health.Value <= 0)
         {
-            _combatActive = false;
+            EndCombat(true);
             return;
         }
 
@@ -64,27 +98,119 @@ public class CombatManager : MonoBehaviour
         EnemyTakeTurn();
     }
 
-    public void PlayerParry()
+    public void PlayerBlock()
     {
-        
+        if (!_combatActive || !_isPlayerTurn) return;
+
+        _playerBlocking = true;
+        _isPlayerTurn = false;
+        Log.Info("Player used Block.");
+
+        EnemyTakeTurn();
     }
 
     public void PlayerSpecial()
     {
-        
+        if (!_combatActive || !_isPlayerTurn) return;
+
+        int damage = DamageSvc.CalculateDamage(GameState.GoodGuy, GameState.BadGuy) + 2;
+
+        if (_enemyBlocking)
+        {
+            damage = Mathf.Max(0, damage - 2);
+            _enemyBlocking = false;
+            Log.Info("Enemy blocked part of the player's special.");
+        }
+
+        DamageSvc.ApplyDamage(GameState.BadGuy, damage);
+        Log.Info("Player used Special for " + damage + " damage.");
+
+        if (GameState.BadGuy.Health.Value <= 0)
+        {
+            EndCombat(true);
+            return;
+        }
+
+        _isPlayerTurn = false;
+        EnemyTakeTurn();
     }
 
     private void EnemyTakeTurn()
     {
-        var damage = DamageSvc.CalculateDamage(GameState.BadGuy, GameState.GoodGuy);
-        DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
+        if (!_combatActive) return;
 
-        if (GameState.GoodGuy.Health.Value <= 0)
+        int action = Random.Range(0, 3);
+
+        if (action == 0)
+            EnemyAttack();
+        else if (action == 1)
+            EnemyBlock();
+        else
+            EnemySpecial();
+
+        if (_combatActive)
+            _isPlayerTurn = true;
+    }
+
+    private void EnemyAttack()
+    {
+        int damage = DamageSvc.CalculateDamage(GameState.BadGuy, GameState.GoodGuy);
+
+        if (_playerBlocking)
         {
-            _combatActive = false;
-            return;
+            damage = Mathf.Max(0, damage - 2);
+            Log.Info("Player blocked part of the enemy attack.");
         }
 
-        _isPlayerTurn = true;
+        _playerBlocking = false;
+
+        DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
+        Log.Info("Enemy attacked for " + damage + " damage.");
+
+        if (GameState.GoodGuy.Health.Value <= 0)
+            EndCombat(false);
+    }
+
+    private void EnemyBlock()
+    {
+        _enemyBlocking = true;
+        _playerBlocking = false;
+        Log.Info("Enemy used Block.");
+    }
+
+    private void EnemySpecial()
+    {
+        int damage = DamageSvc.CalculateDamage(GameState.BadGuy, GameState.GoodGuy) + 2;
+
+        if (_playerBlocking)
+        {
+            damage = Mathf.Max(0, damage - 2);
+            Log.Info("Player blocked part of the enemy special.");
+        }
+
+        _playerBlocking = false;
+
+        DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
+        Log.Info("Enemy used Special for " + damage + " damage.");
+
+        if (GameState.GoodGuy.Health.Value <= 0)
+            EndCombat(false);
+    }
+
+    private void EndCombat(bool playerWon)
+    {
+        _combatActive = false;
+        _playerBlocking = false;
+        _enemyBlocking = false;
+
+        if (combatResultUI != null)
+        {
+            if (playerWon)
+                combatResultUI.ShowWin();
+            else
+                combatResultUI.ShowLose();
+        }
+
+        Log.Info(playerWon ? "Player won combat." : "Player lost combat.");
     }
 }
