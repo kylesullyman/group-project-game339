@@ -596,8 +596,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9da1c547ce5a6473585de9727e1a460d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.CombatResultUI
-  panel: {fileID: 261138300}
-  resultText: {fileID: 565192217}
+  panel: {fileID: 0}
+  resultText: {fileID: 0}
 --- !u!1 &265560406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1314,7 +1314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.EnemyHealthBarView
   healthSlider: {fileID: 617618191}
-  maxHealth: 10
+  maxHealth: 100
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,6 +1787,10 @@ PrefabInstance:
     - target: {fileID: 7162159547833895966, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
       propertyPath: m_Name
       value: TitleScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162159547833895966, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2669,7 +2673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.PlayerHealthBarView
   healthSlider: {fileID: 1579256595}
-  maxHealth: 10
+  maxHealth: 100
 --- !u!1 &1610131803
 GameObject:
   m_ObjectHideFlags: 0
@@ -3309,7 +3313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d9c790e71fa54ad69434059d29567e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.BackgroundMusic
-  audioSource: {fileID: 1906162010}
+  audioSource: {fileID: 0}
 --- !u!4 &1906162012
 Transform:
   m_ObjectHideFlags: 0
@@ -3375,7 +3379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157f75b5cec2641e4a769680890e95d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.BadGuyHpView
-  thisIsMyLabel: {fileID: 2000787343}
+  thisIsMyLabel: {fileID: 0}
 --- !u!114 &2000787343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3631,7 +3635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a5e84904608948d6b581a71a1250727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
-  pawn: {fileID: 11400000, guid: 965633dd7219368478f746dc6b873551, type: 2}
+  playerUnit: {fileID: 11400000, guid: 965633dd7219368478f746dc6b873551, type: 2}
+  enemyUnit: {fileID: 11400000, guid: 965633dd7219368478f746dc6b873551, type: 2}
   combatResultUI: {fileID: 261138304}
 --- !u!1001 &1547288434120444574
 PrefabInstance:
