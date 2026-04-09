@@ -2,6 +2,7 @@ using Game.Runtime;
 using Game339.Shared.Diagnostics;
 using Game339.Shared.Models;
 using Game339.Shared.Services;
+using Game339.Shared.ViewModels;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -13,9 +14,6 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private ChessUnitData playerUnit;
     [SerializeField] private ChessUnitData enemyUnit;
 
-    [Header("UI")]
-    [SerializeField] private CombatResultUI combatResultUI;
-
     private bool _isPlayerTurn = true;
     private bool _combatActive;
     private bool _playerBlocking;
@@ -24,6 +22,7 @@ public class CombatManager : MonoBehaviour
     private static GameState GameState => ServiceResolver.Resolve<GameState>();
     private static IDamageService DamageSvc => ServiceResolver.Resolve<IDamageService>();
     private static IGameLog Log => ServiceResolver.Resolve<IGameLog>();
+    private static ICombatViewModel CombatViewModel => ServiceResolver.Resolve<ICombatViewModel>();
 
     public bool IsCombatActive => _combatActive;
     public bool IsPlayerTurn => _isPlayerTurn;
@@ -68,8 +67,7 @@ public class CombatManager : MonoBehaviour
         _isPlayerTurn = true;
         _combatActive = true;
 
-        if (combatResultUI != null)
-            combatResultUI.Hide();
+        CombatViewModel.OnCombatStarted(playerUnit.health, enemyUnit.health);
 
         Log.Info("Combat started.");
     }
@@ -94,6 +92,7 @@ public class CombatManager : MonoBehaviour
         }
 
         DamageSvc.ApplyDamage(GameState.BadGuy, damage);
+        CombatViewModel.OnStatusUpdated("Player attacked for " + damage + " damage.");
         Log.Info("Player attacked for " + damage + " damage.");
 
         if (GameState.BadGuy.Health.Value <= 0)
@@ -103,6 +102,7 @@ public class CombatManager : MonoBehaviour
         }
 
         _isPlayerTurn = false;
+        CombatViewModel.OnEnemyTurnBegan();
         EnemyTakeTurn();
     }
 
@@ -112,6 +112,8 @@ public class CombatManager : MonoBehaviour
 
         _playerBlocking = true;
         _isPlayerTurn = false;
+        CombatViewModel.OnStatusUpdated("Player is blocking.");
+        CombatViewModel.OnEnemyTurnBegan();
         Log.Info("Player used Block.");
 
         EnemyTakeTurn();
@@ -131,6 +133,7 @@ public class CombatManager : MonoBehaviour
         }
 
         DamageSvc.ApplyDamage(GameState.BadGuy, damage);
+        CombatViewModel.OnStatusUpdated("Player used Special for " + damage + " damage.");
         Log.Info("Player used Special for " + damage + " damage.");
 
         if (GameState.BadGuy.Health.Value <= 0)
@@ -140,6 +143,7 @@ public class CombatManager : MonoBehaviour
         }
 
         _isPlayerTurn = false;
+        CombatViewModel.OnEnemyTurnBegan();
         EnemyTakeTurn();
     }
 
@@ -157,7 +161,10 @@ public class CombatManager : MonoBehaviour
             EnemySpecial();
 
         if (_combatActive)
+        {
             _isPlayerTurn = true;
+            CombatViewModel.OnPlayerTurnBegan();
+        }
     }
 
     private void EnemyAttack()
@@ -173,6 +180,7 @@ public class CombatManager : MonoBehaviour
         _playerBlocking = false;
 
         DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
+        CombatViewModel.OnStatusUpdated("Enemy attacked for " + damage + " damage.");
         Log.Info("Enemy attacked for " + damage + " damage.");
 
         if (GameState.GoodGuy.Health.Value <= 0)
@@ -183,6 +191,7 @@ public class CombatManager : MonoBehaviour
     {
         _enemyBlocking = true;
         _playerBlocking = false;
+        CombatViewModel.OnStatusUpdated("Enemy is blocking.");
         Log.Info("Enemy used Block.");
     }
 
@@ -199,6 +208,7 @@ public class CombatManager : MonoBehaviour
         _playerBlocking = false;
 
         DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
+        CombatViewModel.OnStatusUpdated("Enemy used Special for " + damage + " damage.");
         Log.Info("Enemy used Special for " + damage + " damage.");
 
         if (GameState.GoodGuy.Health.Value <= 0)
@@ -211,14 +221,7 @@ public class CombatManager : MonoBehaviour
         _playerBlocking = false;
         _enemyBlocking = false;
 
-        if (combatResultUI != null)
-        {
-            if (playerWon)
-                combatResultUI.ShowWin();
-            else
-                combatResultUI.ShowLose();
-        }
-
+        CombatViewModel.OnCombatEnded(playerWon);
         Log.Info(playerWon ? "Player won combat." : "Player lost combat.");
     }
 }

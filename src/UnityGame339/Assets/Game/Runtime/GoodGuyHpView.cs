@@ -1,26 +1,25 @@
-using Game339.Shared.Models;
+using Game339.Shared.ViewModels;
 using TMPro;
 
 namespace Game.Runtime
 {
     public class GoodGuyHpView : ObserverMonoBehaviour
     {
-        private static GameState GameState => ServiceResolver.Resolve<GameState>();
-
         public TextMeshProUGUI thisIsMyLabel;
+
+        private static ICombatViewModel CombatViewModel => ServiceResolver.Resolve<ICombatViewModel>();
 
         protected override void Subscribe()
         {
-            GameState.GoodGuy.Health.ChangeEvent += OnGoodGuyHealthChange;
-            OnGoodGuyHealthChange(GameState.GoodGuy.Health.Value);
+            CombatViewModel.PlayerHealthBar.Health.ChangeEvent += OnHealthChanged;
         }
 
         protected override void Unsubscribe()
         {
-            GameState.GoodGuy.Health.ChangeEvent -= OnGoodGuyHealthChange;
+            CombatViewModel.PlayerHealthBar.Health.ChangeEvent -= OnHealthChanged;
         }
 
-        private void OnGoodGuyHealthChange(int health)
+        private void OnHealthChanged(int health)
         {
             if (thisIsMyLabel != null)
                 thisIsMyLabel.text = "Health: " + health;
