@@ -9,8 +9,9 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance { get; private set; }
 
-    [Header("Enemy Data")]
-    [SerializeField] private ChessUnitData pawn;
+    [Header("Unit Data")]
+    [SerializeField] private ChessUnitData playerUnit;
+    [SerializeField] private ChessUnitData enemyUnit;
 
     [Header("UI")]
     [SerializeField] private CombatResultUI combatResultUI;
@@ -45,15 +46,22 @@ public class CombatManager : MonoBehaviour
 
     public void StartCombat()
     {
-        GameState.GoodGuy.Name.Value = "Player";
-        GameState.GoodGuy.Health.Value = 10;
-        GameState.GoodGuy.Damage.Value = 2;
-        GameState.GoodGuy.Armor.Value = 0;
+        if (playerUnit == null || enemyUnit == null)
+        {
+            Log.Error("CombatManager is missing ChessUnitData references.");
+            _combatActive = false;
+            return;
+        }
 
-        GameState.BadGuy.Name.Value = "Enemy";
-        GameState.BadGuy.Health.Value = 10;
-        GameState.BadGuy.Damage.Value = 2;
-        GameState.BadGuy.Armor.Value = 0;
+        GameState.GoodGuy.Name.Value = playerUnit.unitName;
+        GameState.GoodGuy.Health.Value = playerUnit.health;
+        GameState.GoodGuy.Damage.Value = playerUnit.damage;
+        GameState.GoodGuy.Armor.Value = playerUnit.armor;
+
+        GameState.BadGuy.Name.Value = enemyUnit.unitName;
+        GameState.BadGuy.Health.Value = enemyUnit.health;
+        GameState.BadGuy.Damage.Value = enemyUnit.damage;
+        GameState.BadGuy.Armor.Value = enemyUnit.armor;
 
         _playerBlocking = false;
         _enemyBlocking = false;
