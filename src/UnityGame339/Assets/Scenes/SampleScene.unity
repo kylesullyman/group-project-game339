@@ -3637,7 +3637,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatManager
   playerUnit: {fileID: 11400000, guid: 965633dd7219368478f746dc6b873551, type: 2}
   enemyUnit: {fileID: 11400000, guid: 965633dd7219368478f746dc6b873551, type: 2}
-  combatResultUI: {fileID: 261138304}
 --- !u!1001 &1547288434120444574
 PrefabInstance:
   m_ObjectHideFlags: 0
