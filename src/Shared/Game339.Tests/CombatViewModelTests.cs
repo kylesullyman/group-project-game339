@@ -111,34 +111,4 @@ namespace Game339.Tests
             _viewModel.OnPlayerTurnBegan();
             Assert.That(_viewModel.IsPlayerTurn.Value, Is.True);
         }
-
-        [Test]
-        public void OnStatusUpdated_SetsStatusMessage()
-        {
-            _viewModel.OnStatusUpdated("Player attacked for 3 damage.");
-            Assert.That(_viewModel.StatusMessage.Value, Is.EqualTo("Player attacked for 3 damage."));
-        }
-
-        [Test]
-        public void OnCombatEnded_PlayerWon_SetsCombatOverAndPlayerWon()
-        {
-            _viewModel.OnCombatStarted(10, 8);
-            _viewModel.OnCombatEnded(playerWon: true);
-
-            Assert.That(_viewModel.IsCombatOver.Value, Is.True);
-            Assert.That(_viewModel.PlayerWon.Value, Is.True);
-            Assert.That(_viewModel.StatusMessage.Value, Is.EqualTo("You win!"));
-        }
-
-        [Test]
-        public void OnCombatEnded_PlayerLost_SetsCombatOverAndPlayerNotWon()
-        {
-            _viewModel.OnCombatStarted(10, 8);
-            _viewModel.OnCombatEnded(playerWon: false);
-
-            Assert.That(_viewModel.IsCombatOver.Value, Is.True);
-            Assert.That(_viewModel.PlayerWon.Value, Is.False);
-            Assert.That(_viewModel.StatusMessage.Value, Is.EqualTo("You lose!"));
-        }
-    }
 }

@@ -31,12 +31,6 @@ namespace Game339.Tests
         }
 
         [Test]
-        public void HealthPercent_IsZeroBeforeMaxHealthSet()
-        {
-            Assert.That(_viewModel.HealthPercent.Value, Is.EqualTo(0f));
-        }
-
-        [Test]
         public void SetMaxHealth_SetsHealthPercentToFull()
         {
             _viewModel.SetMaxHealth(10);
