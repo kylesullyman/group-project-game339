@@ -112,4 +112,5 @@ namespace Game339.Tests
             _viewModel.OnPlayerTurnBegan();
             Assert.That(_viewModel.IsPlayerTurn.Value, Is.True);
         }
+    }
 }
