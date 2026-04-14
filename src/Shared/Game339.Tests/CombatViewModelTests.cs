@@ -1,5 +1,6 @@
 using Game339.Shared.Models;
 using Game339.Shared.ViewModels;
+using Game339.Shared;
 
 namespace Game339.Tests
 {
