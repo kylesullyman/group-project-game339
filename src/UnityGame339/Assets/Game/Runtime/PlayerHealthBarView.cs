@@ -1,4 +1,4 @@
-using Game339.Shared.Models;
+using Game339.Shared.ViewModels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,28 +7,24 @@ namespace Game.Runtime
     public class PlayerHealthBarView : ObserverMonoBehaviour
     {
         [SerializeField] private Slider healthSlider;
-        [SerializeField] private int maxHealth = 10;
 
-        private static GameState GameState => ServiceResolver.Resolve<GameState>();
+        private static ICombatViewModel CombatViewModel => ServiceResolver.Resolve<ICombatViewModel>();
 
         protected override void Subscribe()
         {
-            GameState.GoodGuy.Health.ChangeEvent += OnHealthChanged;
-            OnHealthChanged(GameState.GoodGuy.Health.Value);
+            CombatViewModel.PlayerHealthBar.HealthPercent.ChangeEvent += OnHealthPercentChanged;
         }
 
         protected override void Unsubscribe()
         {
-            GameState.GoodGuy.Health.ChangeEvent -= OnHealthChanged;
+            CombatViewModel.PlayerHealthBar.HealthPercent.ChangeEvent -= OnHealthPercentChanged;
         }
 
-        private void OnHealthChanged(int health)
+        private void OnHealthPercentChanged(float percent)
         {
             if (healthSlider == null) return;
-
-            healthSlider.maxValue = 100f;
-            float percent = ((float)health / maxHealth) * 100f;
-            healthSlider.value = Mathf.Clamp(percent, 0f, 100f);
+            healthSlider.maxValue = 1f;
+            healthSlider.value = Mathf.Clamp01(percent);
         }
     }
 }

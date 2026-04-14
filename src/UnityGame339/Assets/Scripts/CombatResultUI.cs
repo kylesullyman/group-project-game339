@@ -1,35 +1,36 @@
+using Game.Runtime;
+using Game339.Shared.ViewModels;
 using TMPro;
 using UnityEngine;
 
-namespace Game.Runtime
+public class CombatResultUI : ObserverMonoBehaviour
 {
-    public class CombatResultUI : MonoBehaviour
+    [SerializeField] private GameObject panel;
+    [SerializeField] private TextMeshProUGUI resultText;
+
+    private static ICombatViewModel CombatViewModel => ServiceResolver.Resolve<ICombatViewModel>();
+
+    protected override void Subscribe()
     {
-        [SerializeField] private GameObject panel;
-        [SerializeField] private TextMeshProUGUI resultText;
+        CombatViewModel.IsCombatOver.ChangeEvent += OnCombatOverChanged;
+        CombatViewModel.PlayerWon.ChangeEvent += OnPlayerWonChanged;
+    }
 
-        public void ShowWin()
-        {
-            if (panel != null)
-                panel.SetActive(true);
+    protected override void Unsubscribe()
+    {
+        CombatViewModel.IsCombatOver.ChangeEvent -= OnCombatOverChanged;
+        CombatViewModel.PlayerWon.ChangeEvent -= OnPlayerWonChanged;
+    }
 
-            if (resultText != null)
-                resultText.text = "You Win";
-        }
+    private void OnCombatOverChanged(bool isOver)
+    {
+        if (panel != null)
+            panel.SetActive(isOver);
+    }
 
-        public void ShowLose()
-        {
-            if (panel != null)
-                panel.SetActive(true);
-
-            if (resultText != null)
-                resultText.text = "You Lose";
-        }
-
-        public void Hide()
-        {
-            if (panel != null)
-                panel.SetActive(false);
-        }
+    private void OnPlayerWonChanged(bool playerWon)
+    {
+        if (resultText != null)
+            resultText.text = playerWon ? "You Win" : "You Lose";
     }
 }

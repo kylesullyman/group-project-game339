@@ -1,29 +1,28 @@
-using Game339.Shared.Models;
+using Game339.Shared.ViewModels;
 using TMPro;
 
 namespace Game.Runtime
 {
     public class GoodGuyNameView : ObserverMonoBehaviour
     {
-        private static GameState GameState => ServiceResolver.Resolve<GameState>();
-
         public TextMeshProUGUI thisIsMyLabel;
+
+        private static ICombatViewModel CombatViewModel => ServiceResolver.Resolve<ICombatViewModel>();
 
         protected override void Subscribe()
         {
-            GameState.GoodGuy.Name.ChangeEvent += OnGoodGuyNameChange;
-            OnGoodGuyNameChange(GameState.GoodGuy.Name.Value);
+            CombatViewModel.PlayerHealthBar.Name.ChangeEvent += OnNameChanged;
         }
 
         protected override void Unsubscribe()
         {
-            GameState.GoodGuy.Name.ChangeEvent -= OnGoodGuyNameChange;
+            CombatViewModel.PlayerHealthBar.Name.ChangeEvent -= OnNameChanged;
         }
 
-        private void OnGoodGuyNameChange(string newName)
+        private void OnNameChanged(string playerName)
         {
             if (thisIsMyLabel != null)
-                thisIsMyLabel.text = newName;
+                thisIsMyLabel.text = playerName;
         }
     }
 }

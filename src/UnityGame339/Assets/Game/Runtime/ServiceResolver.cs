@@ -6,6 +6,7 @@ using Game339.Shared.Diagnostics;
 using Game339.Shared.Models;
 using Game339.Shared.Services;
 using Game339.Shared.Services.Implementation;
+using Game339.Shared.ViewModels;
 
 namespace Game.Runtime
 {
@@ -34,7 +35,10 @@ namespace Game.Runtime
             
             var stringService = new StringService(logger);
             container.RegisterSingletonInstance<IStringService>(stringService);
-            
+
+            var combatViewModel = new CombatViewModel(gameState);
+            container.RegisterSingletonInstance<ICombatViewModel>(combatViewModel);
+
             return container;
         });
     }
