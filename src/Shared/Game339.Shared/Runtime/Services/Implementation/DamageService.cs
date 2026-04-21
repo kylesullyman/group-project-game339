@@ -5,24 +5,31 @@ namespace Game339.Shared.Services.Implementation
 {
     public class DamageService : IDamageService
     {
-        private readonly IGameLog _gameLog;
+        private readonly IGameLog _log;
 
-        public DamageService(IGameLog gameLog)
+        public DamageService(IGameLog log)
         {
-            _gameLog = gameLog;
+            _log = log;
         }
-        
+
         public int CalculateDamage(Character attacker, Character defender)
         {
-            var damage = attacker.Damage.Value - defender.Armor.Value;
-            _gameLog.Info($"{attacker.Name} attacked {defender.Name} for {damage} damage");
+            int damage = attacker.Damage.Value - defender.Armor.Value;
+            if (damage < 0)
+                damage = 0;
+
+            _log.Info(attacker.Name.Value + " attacks " + defender.Name.Value + " for " + damage + " damage.");
             return damage;
         }
 
         public void ApplyDamage(Character defender, int damage)
         {
-            _gameLog.Info($"{defender.Name} takes {damage} damage");
-            defender.Health.Value -= damage;
+            int newHealth = defender.Health.Value - damage;
+            if (newHealth < 0)
+                newHealth = 0;
+
+            defender.Health.Value = newHealth;
+            _log.Info(defender.Name.Value + " now has " + defender.Health.Value + " health.");
         }
     }
 }

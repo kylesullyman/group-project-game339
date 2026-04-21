@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoardManager
   squarePrefab: {fileID: 3244175735363209074, guid: f69422a4140104b548e8fbd44ac8ab85, type: 3}
-  squareSize: 0.75
+  squareSize: 1
