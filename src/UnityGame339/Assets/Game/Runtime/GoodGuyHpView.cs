@@ -22,7 +22,7 @@ namespace Game.Runtime
         private void OnHealthChanged(int health)
         {
             if (thisIsMyLabel != null)
-                thisIsMyLabel.text = "Health: " + health;
+                thisIsMyLabel.text = "Player 1 Health: " + health;
         }
     }
 }
