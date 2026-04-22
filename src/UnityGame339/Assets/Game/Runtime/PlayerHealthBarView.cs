@@ -23,8 +23,9 @@ namespace Game.Runtime
         private void OnHealthPercentChanged(float percent)
         {
             if (healthSlider == null) return;
-            healthSlider.maxValue = 1f;
-            healthSlider.value = Mathf.Clamp01(percent);
+
+            healthSlider.maxValue = 100f;
+            healthSlider.value = Mathf.Clamp01(percent) * 100f;
         }
     }
 }
