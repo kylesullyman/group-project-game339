@@ -1,3 +1,4 @@
+using System;
 using Game339.Shared.Diagnostics;
 using Game339.Shared.Models;
 
@@ -6,6 +7,8 @@ namespace Game339.Shared.Services.Implementation
     public class DamageService : IDamageService
     {
         private readonly IGameLog _log;
+
+        public event Action OnDamageApplied;
 
         public DamageService(IGameLog log)
         {
@@ -28,6 +31,7 @@ namespace Game339.Shared.Services.Implementation
             if (newHealth < 0)
                 newHealth = 0;
 
+            OnDamageApplied?.Invoke();
             defender.Health.Value = newHealth;
             _log.Info(defender.Name.Value + " now has " + defender.Health.Value + " health.");
         }
