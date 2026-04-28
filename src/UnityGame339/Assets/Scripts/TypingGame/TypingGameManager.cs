@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Game339.Shared.Diagnostics;
 using Game339.Shared.Models;
 using Game339.Shared.Services;
@@ -25,6 +26,7 @@ namespace Game.Runtime
 
         [Header("Game Settings")]
         [SerializeField] private float turnTransitionDelay = 2f;
+        [SerializeField] private float hitImpactDelay = 0.65f;
         [SerializeField] private int startingHealth = 100;
         [SerializeField] private int minDamage = 1;
         [SerializeField] private int maxDamage = 12;
@@ -33,6 +35,12 @@ namespace Game.Runtime
         [SerializeField] private float startingTurnTime = 10f;
         [SerializeField] private float minimumTurnTime = 3f;
         [SerializeField] private float timerDecreasePerRound = 1f;
+        
+        [Header("Timeout Damage")]
+        [SerializeField] private int baseTimeoutDamage = 5;
+        [SerializeField] private int timeoutDamagePerRound = 2;
+
+        private int currentRound = 1;
 
         private int currentPlayerTurn = 1;
         private bool canType = true;
@@ -48,6 +56,8 @@ namespace Game.Runtime
         private Coroutine turnTimerRoutine;
 
         private int turnsTakenThisRound = 0;
+
+        private HashSet<string> usedWords = new HashSet<string>();
 
         private static GameState GameState => ServiceResolver.Resolve<GameState>();
         private static IDamageService DamageSvc => ServiceResolver.Resolve<IDamageService>();
@@ -71,12 +81,15 @@ namespace Game.Runtime
 
         private void StartTypingBattle()
         {
+            currentRound = 1;
             gameEnded = false;
             currentPlayerTurn = 1;
             turnsTakenThisRound = 0;
 
             lastWord = "";
             hasRequiredLetter = false;
+
+            usedWords.Clear();
 
             currentTurnTime = startingTurnTime;
 
@@ -163,13 +176,23 @@ namespace Game.Runtime
             if (wordInputField != null)
                 wordInputField.interactable = false;
 
+            int timeoutDamage = baseTimeoutDamage + ((currentRound - 1) * timeoutDamagePerRound);
+
+            if (currentPlayerTurn == 1)
+                DamageSvc.ApplyDamage(GameState.GoodGuy, timeoutDamage);
+            else
+                DamageSvc.ApplyDamage(GameState.BadGuy, timeoutDamage);
+
+            if (DamagePopupSpawner.Instance != null)
+                DamagePopupSpawner.Instance.SpawnDamagePopup(currentPlayerTurn, timeoutDamage);
+
             if (submittedWordText != null)
-                submittedWordText.text = "Player " + currentPlayerTurn + " ran out of time!";
+                submittedWordText.text = "Player " + currentPlayerTurn + " ran out of time! -" + timeoutDamage + " HP";
 
-            CombatViewModel.OnStatusUpdated("Player " + currentPlayerTurn + " ran out of time.");
-            Log.Info("Timeout");
+            CombatViewModel.OnStatusUpdated("Player " + currentPlayerTurn + " took " + timeoutDamage + " timeout damage.");
+            Log.Info("Timeout damage: " + timeoutDamage);
 
-            StartCoroutine(SwitchTurnAfterDelay());
+            StartCoroutine(HandleHitImpactThenSwitch());
         }
 
         private void HandleSubmit(string submittedText)
@@ -183,17 +206,40 @@ namespace Game.Runtime
                 return;
 
             if (!IsValidWord(typedWord))
+            {
+                ResetInputField();
                 return;
-
+            }
             SubmitWord(typedWord);
         }
 
         private bool IsValidWord(string word)
         {
-            if (!hasRequiredLetter)
-                return true;
+            if (WordDatabase.Instance == null)
+            {
+                if (errorText != null)
+                    errorText.text = "Word database missing.";
 
-            if (word[0] != requiredStartingLetter)
+                return false;
+            }
+
+            if (!WordDatabase.Instance.IsValidWord(word))
+            {
+                if (errorText != null)
+                    errorText.text = "Not a real word.";
+
+                return false;
+            }
+
+            if (usedWords.Contains(word))
+            {
+                if (errorText != null)
+                    errorText.text = "Already used.";
+
+                return false;
+            }
+
+            if (hasRequiredLetter && word[0] != requiredStartingLetter)
             {
                 if (errorText != null)
                     errorText.text = "Must start with '" + char.ToUpper(requiredStartingLetter) + "'";
@@ -208,6 +254,8 @@ namespace Game.Runtime
         {
             canType = false;
             isTransitioning = true;
+
+            usedWords.Add(word);
 
             if (turnTimerRoutine != null)
                 StopCoroutine(turnTimerRoutine);
@@ -225,9 +273,29 @@ namespace Game.Runtime
 
             if (submittedWordText != null)
                 submittedWordText.text = $"Player {currentPlayerTurn}: {word} ({damage} dmg)";
+            
+            DamagePopupSpawner.Instance.SpawnDamagePopup(currentPlayerTurn == 1 ? 2 : 1, damage);
+
+            StartCoroutine(HandleHitImpactThenSwitch());
+        }
+
+        private void ResetInputField()
+        {
+            if (wordInputField == null)
+                return;
+
+            wordInputField.text = "";
+            wordInputField.interactable = true;
+            wordInputField.ActivateInputField();
+            wordInputField.Select();
+        }
+        
+        private IEnumerator HandleHitImpactThenSwitch()
+        {
+            yield return new WaitForSeconds(hitImpactDelay);
 
             if (CheckForGameEnd())
-                return;
+                yield break;
 
             StartCoroutine(SwitchTurnAfterDelay());
         }
@@ -274,9 +342,12 @@ namespace Game.Runtime
             if (turnsTakenThisRound >= 2)
             {
                 turnsTakenThisRound = 0;
+
+                currentRound++;
+
                 currentTurnTime = Mathf.Max(minimumTurnTime, currentTurnTime - timerDecreasePerRound);
 
-                CombatViewModel.OnStatusUpdated("Timer now: " + currentTurnTime);
+                CombatViewModel.OnStatusUpdated("Round " + currentRound + " | Timer now: " + currentTurnTime);
             }
         }
 
