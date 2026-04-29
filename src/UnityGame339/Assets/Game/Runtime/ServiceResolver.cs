@@ -30,7 +30,7 @@ namespace Game.Runtime
             gameState.BadGuy.Damage.Value = 1;
             container.RegisterSingletonInstance(gameState);
 
-            var damageService = new DamageService(logger);
+            var damageService = new DamageService(logger, damageModifier: 1);
             container.RegisterSingletonInstance<IDamageService>(damageService);
             
             var stringService = new StringService(logger);

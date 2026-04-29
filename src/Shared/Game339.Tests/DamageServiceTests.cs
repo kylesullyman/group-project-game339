@@ -7,54 +7,62 @@ namespace Game339.Tests
 {
     public class DamageServiceTests
     {
-        private DamageService _damageService;
-
-        [SetUp]
-        public void SetUp()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(4)]
+        public void ApplyDamage_ReducesHealth(int damageModifier)
         {
-            _damageService = new DamageService(TestGameLog.Instance);
-        }
+            var damageService = new DamageService(TestGameLog.Instance, damageModifier);
 
-        [Test]
-        public void ApplyDamage_ReducesHealth()
-        {
             var attacker = new Character();
             attacker.Name.Value = "Attacker";
             attacker.Damage.Value = 3;
 
+            int startingHealth = 100;
             var defender = new Character();
             defender.Name.Value = "Defender";
-            defender.Health.Value = 10;
+            defender.Health.Value = startingHealth;
             defender.Armor.Value = 0;
 
-            int damage = _damageService.CalculateDamage(attacker, defender);
-            _damageService.ApplyDamage(defender, damage);
+            int damage = damageService.CalculateDamage(attacker, defender);
+            damageService.ApplyDamage(defender, damage);
 
-            Assert.That(defender.Health.Value, Is.EqualTo(7));
+            int expectedHealth = startingHealth - damage * damageModifier;
+            Assert.That(defender.Health.Value, Is.EqualTo(expectedHealth));
         }
 
-        [Test]
-        public void ApplyDamage_WithArmor_ReducesHealthByCalculatedAmount()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(4)]
+        public void ApplyDamage_WithArmor_ReducesHealthByCalculatedAmount(int damageModifier)
         {
+            var damageService = new DamageService(TestGameLog.Instance, damageModifier);
+
             var attacker = new Character();
             attacker.Name.Value = "Attacker";
             attacker.Damage.Value = 5;
 
+            int startingHealth = 100;
             var defender = new Character();
             defender.Name.Value = "Defender";
-            defender.Health.Value = 10;
+            defender.Health.Value = startingHealth;
             defender.Armor.Value = 2;
 
-            int damage = _damageService.CalculateDamage(attacker, defender);
-            _damageService.ApplyDamage(defender, damage);
+            int damage = damageService.CalculateDamage(attacker, defender);
+            damageService.ApplyDamage(defender, damage);
 
             Assert.That(damage, Is.EqualTo(3));
-            Assert.That(defender.Health.Value, Is.EqualTo(7));
+            int expectedHealth = startingHealth - damage * damageModifier;
+            Assert.That(defender.Health.Value, Is.EqualTo(expectedHealth));
         }
 
-        [Test]
-        public void ApplyDamage_DoesNotReduceHealthBelowZero()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(4)]
+        public void ApplyDamage_DoesNotReduceHealthBelowZero(int damageModifier)
         {
+            var damageService = new DamageService(TestGameLog.Instance, damageModifier);
+
             var attacker = new Character();
             attacker.Name.Value = "Attacker";
             attacker.Damage.Value = 50;
@@ -64,8 +72,8 @@ namespace Game339.Tests
             defender.Health.Value = 10;
             defender.Armor.Value = 0;
 
-            int damage = _damageService.CalculateDamage(attacker, defender);
-            _damageService.ApplyDamage(defender, damage);
+            int damage = damageService.CalculateDamage(attacker, defender);
+            damageService.ApplyDamage(defender, damage);
 
             Assert.That(defender.Health.Value, Is.EqualTo(0));
         }
