@@ -27,7 +27,8 @@ namespace Game339.Shared.Services.Implementation
 
         public void ApplyDamage(Character defender, int damage)
         {
-            int newHealth = defender.Health.Value - damage;
+            int damageModifier = 4;
+            int newHealth = defender.Health.Value - damage * damageModifier;
             if (newHealth < 0)
                 newHealth = 0;
 
