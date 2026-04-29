@@ -20,6 +20,8 @@ namespace Game.Runtime
         [SerializeField] private TextMeshProUGUI errorText;
         [SerializeField] private TextMeshProUGUI timerText;
 
+        private string inputPrefix = "C:\\Windows> ";
+
         [Header("Fade")]
         [SerializeField] private CanvasGroup fadeCanvasGroup;
         [SerializeField] private float fadeDuration = 0.3f;
@@ -67,7 +69,10 @@ namespace Game.Runtime
         private void Start()
         {
             if (wordInputField != null)
+            {
                 wordInputField.onSubmit.AddListener(HandleSubmit);
+                wordInputField.onValueChanged.AddListener(KeepInputPrefix);
+            }
 
             StartTypingBattle();
             StartTurn();
@@ -76,7 +81,10 @@ namespace Game.Runtime
         private void OnDestroy()
         {
             if (wordInputField != null)
+            {
                 wordInputField.onSubmit.RemoveListener(HandleSubmit);
+                wordInputField.onValueChanged.RemoveListener(KeepInputPrefix);
+            }
         }
 
         private void StartTypingBattle()
@@ -129,9 +137,9 @@ namespace Game.Runtime
             if (wordInputField != null)
             {
                 wordInputField.interactable = true;
-                wordInputField.text = "";
+                wordInputField.SetTextWithoutNotify(inputPrefix);
                 wordInputField.ActivateInputField();
-                wordInputField.Select();
+                MoveCaretToEndOfInput();
             }
 
             UpdateTimerText();
@@ -200,7 +208,10 @@ namespace Game.Runtime
             if (!canType || isTransitioning || gameEnded)
                 return;
 
-            string typedWord = submittedText.Trim().ToLower();
+            string rawText = wordInputField != null ? wordInputField.text : submittedText;
+            if (rawText.StartsWith(inputPrefix))
+                rawText = rawText.Substring(inputPrefix.Length);
+            string typedWord = rawText.Trim().ToLower();
 
             if (string.IsNullOrEmpty(typedWord))
                 return;
@@ -228,6 +239,9 @@ namespace Game.Runtime
                 if (errorText != null)
                     errorText.text = "Not a real word.";
 
+                if (ErrorPopupSpawner.Instance != null)
+                    ErrorPopupSpawner.Instance.ShowErrorPopup("Not a real word.");
+
                 return false;
             }
 
@@ -236,13 +250,21 @@ namespace Game.Runtime
                 if (errorText != null)
                     errorText.text = "Already used.";
 
+                if (ErrorPopupSpawner.Instance != null)
+                    ErrorPopupSpawner.Instance.ShowErrorPopup("Already used.");
+
                 return false;
             }
 
             if (hasRequiredLetter && word[0] != requiredStartingLetter)
             {
+                string message = "Must start with '" + char.ToUpper(requiredStartingLetter) + "'";
+
                 if (errorText != null)
-                    errorText.text = "Must start with '" + char.ToUpper(requiredStartingLetter) + "'";
+                    errorText.text = message;
+
+                if (ErrorPopupSpawner.Instance != null)
+                    ErrorPopupSpawner.Instance.ShowErrorPopup(message);
 
                 return false;
             }
@@ -252,6 +274,9 @@ namespace Game.Runtime
 
         private void SubmitWord(string word)
         {
+            if (ErrorPopupSpawner.Instance != null)
+                ErrorPopupSpawner.Instance.HideErrorPopup();
+            
             canType = false;
             isTransitioning = true;
 
@@ -284,12 +309,44 @@ namespace Game.Runtime
             if (wordInputField == null)
                 return;
 
-            wordInputField.text = "";
+            wordInputField.SetTextWithoutNotify(inputPrefix);
             wordInputField.interactable = true;
             wordInputField.ActivateInputField();
-            wordInputField.Select();
+            MoveCaretToEndOfInput();
+        }
+
+
+        private void KeepInputPrefix(string value)
+        {
+            if (wordInputField == null || !wordInputField.interactable)
+                return;
+
+            if (!value.StartsWith(inputPrefix))
+            {
+                string typedText = value.Replace(inputPrefix, "");
+                wordInputField.SetTextWithoutNotify(inputPrefix + typedText);
+                MoveCaretToEndOfInput();
+                return;
+            }
+
+            if (wordInputField.caretPosition < inputPrefix.Length)
+            {
+                MoveCaretToEndOfInput();
+            }
         }
         
+        private void MoveCaretToEndOfInput()
+        {
+            if (wordInputField == null)
+                return;
+
+            int endPosition = wordInputField.text.Length;
+            wordInputField.caretPosition = endPosition;
+            wordInputField.stringPosition = endPosition;
+            wordInputField.selectionAnchorPosition = endPosition;
+            wordInputField.selectionFocusPosition = endPosition;
+        }
+
         private IEnumerator HandleHitImpactThenSwitch()
         {
             yield return new WaitForSeconds(hitImpactDelay);
