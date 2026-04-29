@@ -7308,7 +7308,7 @@ MonoBehaviour:
   maxTypingSpeed: 8
   speedPerCharacter: 4
   speedSmoothTime: 0.05
-  mouseIdleDelay: 0.3
+  mouseIdleDelay: 0.2
 --- !u!137 &6632754553437831192
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
