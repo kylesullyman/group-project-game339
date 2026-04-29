@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LeftArmMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Hand
+    m_Weight: 0
+  - m_Path: Hand/Armature
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/UpperThumb2.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/UpperThumb2.l/UpperThumb1.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/UpperThumb2.l/UpperThumb1.l/Thumb.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/UpperThumb2.l/UpperThumb1.l/Thumb.l/Thumb.l_end
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UppeIndex.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UppeIndex.l/LowerIndex.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UppeIndex.l/LowerIndex.l/LowerIndex.l_end
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperMiddle.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperMiddle.l/LowerMiddle.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperMiddle.l/LowerMiddle.l/LowerMiddle.l_end
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperPinky.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperPinky.l/LowerPinky.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperPinky.l/LowerPinky.l/LowerPinky.l_end
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperRing.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperRing.l/LowerRing.l
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.l/Wrist.l/UpperRing.l/LowerRing.l/LowerRing.l_end
+    m_Weight: 1
+  - m_Path: Hand/Armature/Arm.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/UpperThumb2.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/UpperThumb2.r/UpperThumb1.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/UpperThumb2.r/UpperThumb1.r/Thumb.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/UpperThumb2.r/UpperThumb1.r/Thumb.r/Thumb.r_end
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UppeIndex.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UppeIndex.r/LowerIndex.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UppeIndex.r/LowerIndex.r/LowerIndex.r_end
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperMiddle.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperMiddle.r/LowerMiddle.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperMiddle.r/LowerMiddle.r/LowerMiddle.r_end
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperPinky.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperPinky.r/LowerPinky.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperPinky.r/LowerPinky.r/LowerPinky.r_end
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperRing.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperRing.r/LowerRing.r
+    m_Weight: 0
+  - m_Path: Hand/Armature/Arm.r/Wrist.r/UpperRing.r/LowerRing.r/LowerRing.r_end
+    m_Weight: 0
+  - m_Path: Ring_LeftIndex
+    m_Weight: 1
+  - m_Path: Ring_LeftMiddle
+    m_Weight: 1
+  - m_Path: Ring_LeftPinky
+    m_Weight: 1
+  - m_Path: Ring_LeftRingRing
+    m_Weight: 1
