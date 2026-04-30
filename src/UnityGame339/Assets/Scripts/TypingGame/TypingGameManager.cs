@@ -91,7 +91,8 @@ namespace Game.Runtime
             turnsTakenThisRound = 0;
 
             lastWord = "";
-            hasRequiredLetter = false;
+            requiredStartingLetter = GetRandomStartingLetter();
+            hasRequiredLetter = true;
 
             usedWords.Clear();
 
@@ -103,6 +104,11 @@ namespace Game.Runtime
             CombatViewModel.OnCombatStarted(startingHealth, startingHealth);
             CombatViewModel.OnStatusUpdated("Typing battle started.");
             Log.Info("Typing battle started.");
+        }
+
+        private char GetRandomStartingLetter()
+        {
+            return (char)Random.Range('a', 'z' + 1);
         }
 
         private void StartTurn()
