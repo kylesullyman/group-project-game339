@@ -20,8 +20,6 @@ namespace Game.Runtime
         [SerializeField] private TextMeshProUGUI errorText;
         [SerializeField] private TextMeshProUGUI timerText;
 
-        private string inputPrefix = "C:\\Windows> ";
-
         [Header("Fade")]
         [SerializeField] private CanvasGroup fadeCanvasGroup;
         [SerializeField] private float fadeDuration = 0.3f;
@@ -71,7 +69,6 @@ namespace Game.Runtime
             if (wordInputField != null)
             {
                 wordInputField.onSubmit.AddListener(HandleSubmit);
-                wordInputField.onValueChanged.AddListener(KeepInputPrefix);
             }
 
             StartTypingBattle();
@@ -83,7 +80,6 @@ namespace Game.Runtime
             if (wordInputField != null)
             {
                 wordInputField.onSubmit.RemoveListener(HandleSubmit);
-                wordInputField.onValueChanged.RemoveListener(KeepInputPrefix);
             }
         }
 
@@ -137,7 +133,7 @@ namespace Game.Runtime
             if (wordInputField != null)
             {
                 wordInputField.interactable = true;
-                wordInputField.SetTextWithoutNotify(inputPrefix);
+                wordInputField.SetTextWithoutNotify("");
                 wordInputField.ActivateInputField();
                 MoveCaretToEndOfInput();
             }
@@ -208,10 +204,9 @@ namespace Game.Runtime
             if (!canType || isTransitioning || gameEnded)
                 return;
 
-            string rawText = wordInputField != null ? wordInputField.text : submittedText;
-            if (rawText.StartsWith(inputPrefix))
-                rawText = rawText.Substring(inputPrefix.Length);
-            string typedWord = rawText.Trim().ToLower();
+            string typedWord = (wordInputField != null ? wordInputField.text : submittedText)
+                .Trim()
+                .ToLower();
 
             if (string.IsNullOrEmpty(typedWord))
                 return;
@@ -221,6 +216,7 @@ namespace Game.Runtime
                 ResetInputField();
                 return;
             }
+
             SubmitWord(typedWord);
         }
 
@@ -299,7 +295,8 @@ namespace Game.Runtime
             if (submittedWordText != null)
                 submittedWordText.text = $"Player {currentPlayerTurn}: {word} ({damage} dmg)";
             
-            DamagePopupSpawner.Instance.SpawnDamagePopup(currentPlayerTurn == 1 ? 2 : 1, damage);
+            if (DamagePopupSpawner.Instance != null)
+                DamagePopupSpawner.Instance.SpawnDamagePopup(currentPlayerTurn == 1 ? 2 : 1, damage);
 
             StartCoroutine(HandleHitImpactThenSwitch());
         }
@@ -309,30 +306,10 @@ namespace Game.Runtime
             if (wordInputField == null)
                 return;
 
-            wordInputField.SetTextWithoutNotify(inputPrefix);
+            wordInputField.SetTextWithoutNotify("");
             wordInputField.interactable = true;
             wordInputField.ActivateInputField();
             MoveCaretToEndOfInput();
-        }
-
-
-        private void KeepInputPrefix(string value)
-        {
-            if (wordInputField == null || !wordInputField.interactable)
-                return;
-
-            if (!value.StartsWith(inputPrefix))
-            {
-                string typedText = value.Replace(inputPrefix, "");
-                wordInputField.SetTextWithoutNotify(inputPrefix + typedText);
-                MoveCaretToEndOfInput();
-                return;
-            }
-
-            if (wordInputField.caretPosition < inputPrefix.Length)
-            {
-                MoveCaretToEndOfInput();
-            }
         }
         
         private void MoveCaretToEndOfInput()

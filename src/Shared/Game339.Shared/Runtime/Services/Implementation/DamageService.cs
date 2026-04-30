@@ -7,12 +7,14 @@ namespace Game339.Shared.Services.Implementation
     public class DamageService : IDamageService
     {
         private readonly IGameLog _log;
+        private readonly int _damageModifier;
 
         public event Action OnDamageApplied;
 
-        public DamageService(IGameLog log)
+        public DamageService(IGameLog log, int damageModifier)
         {
             _log = log;
+            _damageModifier = damageModifier;
         }
 
         public int CalculateDamage(Character attacker, Character defender)
@@ -27,7 +29,7 @@ namespace Game339.Shared.Services.Implementation
 
         public void ApplyDamage(Character defender, int damage)
         {
-            int newHealth = defender.Health.Value - damage;
+            int newHealth = defender.Health.Value - damage * _damageModifier;
             if (newHealth < 0)
                 newHealth = 0;
 
