@@ -40,6 +40,9 @@ namespace Game.Runtime
         [SerializeField] private int baseTimeoutDamage = 5;
         [SerializeField] private int timeoutDamagePerRound = 2;
 
+        [Header("Animations")] [SerializeField]
+        private WizardTrophy wizardTrophyAnimation;
+
         private int currentRound = 1;
 
         private int currentPlayerTurn = 1;
@@ -270,7 +273,9 @@ namespace Game.Runtime
 
                 return false;
             }
-
+            
+            wizardTrophyAnimation.PlayWizardSuccessAnimation();
+            
             return true;
         }
 
