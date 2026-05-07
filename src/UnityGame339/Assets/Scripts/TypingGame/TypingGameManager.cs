@@ -283,7 +283,7 @@ namespace Game.Runtime
         {
             if (ErrorPopupSpawner.Instance != null)
                 ErrorPopupSpawner.Instance.HideErrorPopup();
-            
+    
             canType = false;
             isTransitioning = true;
 
@@ -296,7 +296,12 @@ namespace Game.Runtime
             requiredStartingLetter = lastWord[lastWord.Length - 1];
             hasRequiredLetter = true;
 
-            int damage = Mathf.Clamp(word.Length, minDamage, maxDamage);
+            int baseDamage = Mathf.Clamp(word.Length, minDamage, maxDamage);
+
+            float percentRemaining = turnTimeRemaining / currentTurnTime;
+            float multiplier = 1f + percentRemaining;
+
+            int damage = Mathf.CeilToInt(baseDamage * multiplier);
 
             if (currentPlayerTurn == 1)
                 DamageSvc.ApplyDamage(GameState.BadGuy, damage);
@@ -304,8 +309,9 @@ namespace Game.Runtime
                 DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
 
             if (submittedWordText != null)
-                submittedWordText.text = $"Player {currentPlayerTurn}: {word} ({damage} dmg)";
-            
+                submittedWordText.text = 
+                    $"Player {currentPlayerTurn}: {word} ({damage} dmg x{multiplier:F2})";
+    
             if (DamagePopupSpawner.Instance != null)
                 DamagePopupSpawner.Instance.SpawnDamagePopup(currentPlayerTurn == 1 ? 2 : 1, damage);
 
