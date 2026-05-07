@@ -8,6 +8,7 @@ namespace Game.Runtime
         private static GameState GameState => ServiceResolver.Resolve<GameState>();
 
         public TextMeshProUGUI thisIsMyLabel;
+        public Win95HealthBar healthBar;
 
         protected override void Subscribe()
         {
@@ -24,6 +25,8 @@ namespace Game.Runtime
         {
             if (thisIsMyLabel != null)
                 thisIsMyLabel.text = "" + health;
+            if (healthBar != null)
+                healthBar.SetHealth(health);
         }
     }
 }
