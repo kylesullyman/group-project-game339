@@ -5368,7 +5368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 157f75b5cec2641e4a769680890e95d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.BadGuyHpView
-  thisIsMyLabel: {fileID: 0}
+  thisIsMyLabel: {fileID: 2000787343}
   healthBar: {fileID: 1390022450}
 --- !u!1001 &248550383
 PrefabInstance:
@@ -5651,7 +5651,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 57
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -11094,7 +11094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1895c45d3cfc52787e1d0efa976cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.Runtime.GoodGuyHpView
-  thisIsMyLabel: {fileID: 0}
+  thisIsMyLabel: {fileID: 926496514}
   healthBar: {fileID: 1598148328}
 --- !u!1 &863403139
 GameObject:
@@ -11324,8 +11324,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13241,7 +13241,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251.1, y: 172.1}
+  m_AnchoredPosition: {x: -197.9, y: -148.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1627217413
@@ -13388,7 +13388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 230.8, y: 171.5}
+  m_AnchoredPosition: {x: 212.9, y: -145.6}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1787380677
@@ -14271,8 +14271,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -14360,15 +14360,15 @@ RectTransform:
   - {fileID: 261138301}
   - {fileID: 1270294529}
   - {fileID: 1999133722}
-  - {fileID: 1431335469}
   - {fileID: 1300708289}
   - {fileID: 1813133141}
   - {fileID: 1371857823}
+  - {fileID: 833203372}
+  - {fileID: 220556914}
+  - {fileID: 1431335469}
   - {fileID: 1421474517}
   - {fileID: 1627217412}
   - {fileID: 1787380676}
-  - {fileID: 833203372}
-  - {fileID: 220556914}
   m_Father: {fileID: 2112537460}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
