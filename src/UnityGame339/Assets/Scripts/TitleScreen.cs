@@ -10,13 +10,15 @@ public class TitleScreen : MonoBehaviour
     [Header("Start Button")]
     [SerializeField] private Button startButton;
 
-    [Header("References")]
-    [SerializeField] private CombatManager combatManager;
+    [Header("Start Screen Camera")]
+    [SerializeField] private Camera startScreenCamera;
 
     public void Initialize()
     {
-        if (titleText != null)
-            titleText.localPosition = textPosition;
+        if (startScreenCamera != null)
+            startScreenCamera.enabled = false;
+        else
+            startScreenCamera.enabled = true;
 
         if (startButton != null)
             startButton.onClick.AddListener(OnStartPressed);
