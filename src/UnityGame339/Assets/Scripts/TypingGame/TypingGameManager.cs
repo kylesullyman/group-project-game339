@@ -6,6 +6,7 @@ using Game339.Shared.Services;
 using Game339.Shared.ViewModels;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Runtime
 {
@@ -14,6 +15,10 @@ namespace Game.Runtime
         [Header("UI")]
         [SerializeField] private TMP_InputField wordInputField;
         [SerializeField] private GameObject loadingScreen;
+        [SerializeField] private GameObject endGameScreen;
+        [SerializeField] private TextMeshProUGUI winnerText;
+        [SerializeField] private Button restartButton;
+
         [SerializeField] private TextMeshProUGUI turnText;
         [SerializeField] private TextMeshProUGUI submittedWordText;
         [SerializeField] private TextMeshProUGUI ruleText;
@@ -35,13 +40,13 @@ namespace Game.Runtime
         [SerializeField] private float startingTurnTime = 10f;
         [SerializeField] private float minimumTurnTime = 3f;
         [SerializeField] private float timerDecreasePerRound = 1f;
-        
+
         [Header("Timeout Damage")]
         [SerializeField] private int baseTimeoutDamage = 5;
         [SerializeField] private int timeoutDamagePerRound = 2;
 
-        [Header("Animations")] [SerializeField]
-        private WizardTrophy wizardTrophyAnimation;
+        [Header("Animations")]
+        [SerializeField] private WizardTrophy wizardTrophyAnimation;
 
         private int currentRound = 1;
 
@@ -74,6 +79,16 @@ namespace Game.Runtime
                 wordInputField.onSubmit.AddListener(HandleSubmit);
             }
 
+            if (restartButton != null)
+            {
+                restartButton.onClick.AddListener(RestartGame);
+            }
+
+            if (endGameScreen != null)
+            {
+                endGameScreen.SetActive(false);
+            }
+
             StartTypingBattle();
             StartTurn();
         }
@@ -83,6 +98,11 @@ namespace Game.Runtime
             if (wordInputField != null)
             {
                 wordInputField.onSubmit.RemoveListener(HandleSubmit);
+            }
+
+            if (restartButton != null)
+            {
+                restartButton.onClick.RemoveListener(RestartGame);
             }
         }
 
@@ -273,9 +293,9 @@ namespace Game.Runtime
 
                 return false;
             }
-            
+
             wizardTrophyAnimation.PlayWizardSuccessAnimation();
-            
+
             return true;
         }
 
@@ -283,7 +303,7 @@ namespace Game.Runtime
         {
             if (ErrorPopupSpawner.Instance != null)
                 ErrorPopupSpawner.Instance.HideErrorPopup();
-    
+
             canType = false;
             isTransitioning = true;
 
@@ -309,9 +329,9 @@ namespace Game.Runtime
                 DamageSvc.ApplyDamage(GameState.GoodGuy, damage);
 
             if (submittedWordText != null)
-                submittedWordText.text = 
+                submittedWordText.text =
                     $"Player {currentPlayerTurn}: {word} ({damage} dmg x{multiplier:F2})";
-    
+
             if (DamagePopupSpawner.Instance != null)
                 DamagePopupSpawner.Instance.SpawnDamagePopup(currentPlayerTurn == 1 ? 2 : 1, damage);
 
@@ -328,7 +348,7 @@ namespace Game.Runtime
             wordInputField.ActivateInputField();
             MoveCaretToEndOfInput();
         }
-        
+
         private void MoveCaretToEndOfInput()
         {
             if (wordInputField == null)
@@ -426,17 +446,57 @@ namespace Game.Runtime
         {
             gameEnded = true;
             canType = false;
+            isTransitioning = false;
 
             if (turnTimerRoutine != null)
                 StopCoroutine(turnTimerRoutine);
 
+            if (wordInputField != null)
+                wordInputField.interactable = false;
+
             if (turnText != null)
-                turnText.text = $"Player {winner} Wins!";
+                turnText.text = "";
+
+            if (winnerText != null)
+                winnerText.text = $"Player {winner} Wins!";
 
             if (timerText != null)
                 timerText.text = "";
 
+            if (endGameScreen != null)
+                endGameScreen.SetActive(true);
+
             CombatViewModel.OnCombatEnded(winner == 1);
+        }
+
+        public void RestartGame()
+        {
+            if (turnTimerRoutine != null)
+                StopCoroutine(turnTimerRoutine);
+
+            if (endGameScreen != null)
+                endGameScreen.SetActive(false);
+            
+            if (winnerText != null)
+                winnerText.text = "";
+            
+            if (loadingScreen != null)
+                loadingScreen.SetActive(false);
+
+            if (fadeCanvasGroup != null)
+            {
+                fadeCanvasGroup.alpha = 0f;
+                fadeCanvasGroup.blocksRaycasts = false;
+            }
+
+            if (submittedWordText != null)
+                submittedWordText.text = "";
+
+            if (errorText != null)
+                errorText.text = "";
+
+            StartTypingBattle();
+            StartTurn();
         }
     }
 }
