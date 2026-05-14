@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,23 +11,44 @@ public class TitleScreen : MonoBehaviour
     [Header("Start Button")]
     [SerializeField] private Button startButton;
 
-    [Header("References")]
-    [SerializeField] private CombatManager combatManager;
+    [Header("Cameras")]
+    [SerializeField] private Camera startScreenCamera;
+    [SerializeField] private Camera mainCamera;
+    
+    [Header("Input")]
+    [SerializeField] private TMP_Text textInputField;
+
+    public void Start()
+    {
+        if (startScreenCamera != null)
+            startScreenCamera.enabled = true;
+        if (mainCamera != null)
+            mainCamera.enabled = false;
+        if (textInputField != null)
+            textInputField.text = "Hit Start to Play!";
+
+        if (startButton != null)
+            startButton.onClick.AddListener(OnStartPressed);
+    }
 
     public void Initialize()
     {
-        if (titleText != null)
-            titleText.localPosition = textPosition;
-
         if (startButton != null)
             startButton.onClick.AddListener(OnStartPressed);
     }
 
     private void OnStartPressed()
     {
-        if (combatManager != null)
-            combatManager.StartCombat();
-
+        if (mainCamera != null)
+            mainCamera.enabled = true;
+        if (startScreenCamera != null)
+            startScreenCamera.enabled = false;
+        if (startButton != null)
+            startButton.enabled = false;
+        if (textInputField != null)
+            textInputField.text = "Enter text: ";
         gameObject.SetActive(false);
+        
+        
     }
 }
