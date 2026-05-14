@@ -11460,6 +11460,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 902225968514169327, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2942513981072950372, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 265560409}
+    - target: {fileID: 2942513981072950372, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: textInputField
+      value: 
+      objectReference: {fileID: 1278621150}
+    - target: {fileID: 2942513981072950372, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: startScreenCamera
+      value: 
+      objectReference: {fileID: 1619496051}
+    - target: {fileID: 3339200996322186987, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 89.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3339200996322186987, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3339200996322186987, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4629988983467721454, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11506,7 +11534,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7162159547833895966, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7398374445013558524, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199848615568328967, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8462619237526237592, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13207,6 +13247,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610131803}
   m_CullTransparentMesh: 1
+--- !u!20 &1619496051 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6435213257069508483, guid: 07db10872dafe4d23b97986b8c1bc9b8, type: 3}
+  m_PrefabInstance: {fileID: 989895052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1627217411
 GameObject:
   m_ObjectHideFlags: 0
